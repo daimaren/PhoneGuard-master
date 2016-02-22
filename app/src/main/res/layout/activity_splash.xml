@@ -4,9 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cn.ixuehu.phoneguard.activity.SplashActivity"
-    android:background="@drawable/luncher_bg">
+    android:background="@drawable/luncher_bg"
+    android:id="@+id/rl_splash_root">
     <TextView
+        android:id="@+id/tv_splash_versionname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sfmfgskf"/>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="20sp"
+        android:text="版本的名"/>
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_splash_versionname"
+        android:layout_centerHorizontal="true"
+        />
+
 </RelativeLayout>
