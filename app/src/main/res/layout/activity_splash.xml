@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:textSize="20sp"
-        android:text="版本的名"/>
+        android:text="版本名"/>
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
