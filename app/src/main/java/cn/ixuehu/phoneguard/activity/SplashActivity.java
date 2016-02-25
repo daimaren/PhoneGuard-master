@@ -3,19 +3,30 @@ package cn.ixuehu.phoneguard.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -29,6 +40,7 @@ public class SplashActivity extends Activity {
     private static final int UPDATE_VERSION = 1;
     private static final int LOAD_MAIN = 2;
     private TextView textView;
+    private ProgressBar progressBar;
     private RelativeLayout relativeLayout;
     private PackageManager packageManager;
     private int versionCode;
@@ -38,7 +50,20 @@ public class SplashActivity extends Activity {
         initView();
         initData();
         initAnim();
-        checkVersion();
+        runSubThread();
+    }
+
+    /**
+     * 启动子线程检查版本
+     */
+    private void runSubThread()
+    {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                checkVersion();
+            }
+        }).start();
     }
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -52,7 +77,7 @@ public class SplashActivity extends Activity {
                     builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialogInterface) {
-
+                            loadMain();
                         }
                     });
                     builder.setTitle("新版本").setMessage(urlData.getDesc()).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -80,7 +105,10 @@ public class SplashActivity extends Activity {
     });
     private void loadMain()
     {
-
+        //跳转主界面
+        Intent intent = new Intent(SplashActivity.this,HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     /**
@@ -89,8 +117,32 @@ public class SplashActivity extends Activity {
      */
     private void downloadAndInstall(String downloadUrl)
     {
+        progressBar.setVisibility(View.VISIBLE);
+        HttpUtils httpUtils = new HttpUtils();
+        httpUtils.download(downloadUrl,"/sdcard/phoneguard.apk", new RequestCallBack<File>() {
+            @Override
+            public void onSuccess(ResponseInfo<File> responseInfo) {
+                progressBar.setVisibility(View.GONE);
+                //下载成功，安装
+                Intent intent = new Intent("android.intent.action.VIEW");
+                intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"phoneguard.apk")),"application/vnd.android.package-archive");
+                startActivityForResult(intent,0);
+            }
+            @Override
+            public void onFailure(HttpException error, String msg) {
+                //下载失败
+                ShowToast.show(SplashActivity.this,"下载新版本apk失败");
+            }
 
+            @Override
+            public void onLoading(long total, long current, boolean isUploading) {
+                super.onLoading(total, current, isUploading);
+                progressBar.setProgress((int) current);
+                progressBar.setMax((int) total);
+            }
+        });
     }
+
     /**
      * 初始化view
      */
@@ -99,6 +151,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         //初始化控件
         textView = (TextView) findViewById(R.id.tv_splash_versionname);
+        progressBar = (ProgressBar) findViewById(R.id.pb_splash_download);
         relativeLayout = (RelativeLayout) findViewById(R.id.rl_splash_root);
         packageManager = getPackageManager();
     }
