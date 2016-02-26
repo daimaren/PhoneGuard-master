@@ -44,6 +44,7 @@ public class SplashActivity extends Activity {
     private RelativeLayout relativeLayout;
     private PackageManager packageManager;
     private int versionCode;
+    private static final String TAG = "SplashActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,11 +248,13 @@ public class SplashActivity extends Activity {
      */
     private UrlData parseJson(String res) throws JSONException
     {
+        //Log.d(TAG,res + "");
         UrlData urlData = new UrlData();
         JSONObject jsonObject = new JSONObject(res);
-        urlData.setVersionCode(jsonObject.getInt("versionCode"));
+        urlData.setVersionCode(jsonObject.getInt("versioncode"));
         urlData.setDesc(jsonObject.getString("desc"));
         urlData.setDownUrl(jsonObject.getString("downloadUrl"));
+        //Log.d(TAG, urlData + "");
         return urlData;
     }
 
