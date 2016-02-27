@@ -1,16 +1,25 @@
 package cn.ixuehu.phoneguard.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.ixuehu.phoneguard.R;
+import cn.ixuehu.phoneguard.utils.Md5Utils;
+import cn.ixuehu.phoneguard.utils.MyConstants;
+import cn.ixuehu.phoneguard.utils.ShowToast;
 
 public class HomeActivity extends Activity {
     private GridView gv_jiugongge;
@@ -21,6 +30,7 @@ public class HomeActivity extends Activity {
             R.drawable.sysoptimize,R.drawable.atools,R.drawable.settings};
     private GVAdapter gvAdapter;
     private SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,14 +38,127 @@ public class HomeActivity extends Activity {
         initData();
         initEvent();
     }
+    private boolean isSetPass()
+    {
+        boolean res = false;
 
-    private void initEvent() {
+        String string = sp.getString(MyConstants.PASSWD, "");
+        if (!TextUtils.isEmpty(string)){
+            //不存在
+            res = true;
+        }
+        return res;
+    }
+    private void loadLostFind(){
 
     }
+    private Dialog dialog;
+    /**
+     * 显示设置密码对话框
+     */
+    private void showSetPassDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+        View view = View.inflate(HomeActivity.this,R.layout.dialog_setpasswd,null);
+        final EditText et_passone = (EditText) view.findViewById(R.id.et_dialog_passone);
+        final EditText et_passtwo = (EditText) view.findViewById(R.id.et_dialog_passtwo);
+        Button bt_set = (Button) view.findViewById(R.id.bt_dialog_setpass);
+        Button bt_cancel = (Button) view.findViewById(R.id.bt_dialog_cancel);
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
 
+        bt_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String passone = et_passone.getText().toString().trim();
+                String passtwo = et_passtwo.getText().toString().trim();
+                if (TextUtils.isEmpty(passone) || TextUtils.isEmpty(passtwo)){
+                    ShowToast.show(HomeActivity.this, "密码不能为空");
+                    return;
+                }
+                //判断是否一致
+                if (passone.equals(passtwo)){
+                    //写入sp
+                    sp.edit().putString(MyConstants.PASSWD,Md5Utils.Md5Encode(passone)).commit();
+                    ShowToast.show(HomeActivity.this, "密码设置成功");
+                    dialog.dismiss();
+                }
+                else {
+                    ShowToast.show(HomeActivity.this, "两次密码不一致");
+                }
+            }
+        });
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+    /**
+     * 显示输入密码对话框
+     */
+    private void showInputPassDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+        View view = View.inflate(HomeActivity.this,R.layout.dialog_inputpasswd,null);
+        final EditText et_passone = (EditText) view.findViewById(R.id.et_dialog_passone);
+        Button bt_set = (Button) view.findViewById(R.id.bt_dialog_setpass);
+        Button bt_cancel = (Button) view.findViewById(R.id.bt_dialog_cancel);
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
+
+        bt_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String passone = et_passone.getText().toString().trim();
+                if (TextUtils.isEmpty(passone)){
+                    ShowToast.show(HomeActivity.this, "密码不能为空");
+                    return;
+                }
+                if (Md5Utils.Md5Encode(passone).equals(sp.getString(MyConstants.PASSWD, ""))){
+                    loadLostFind();
+                    dialog.dismiss();
+                }
+                else {
+                    ShowToast.show(HomeActivity.this, "密码不正确");
+                }
+
+            }
+        });
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+    private void initEvent() {
+        gv_jiugongge.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i)
+                {
+                    case 0://手机防盗
+                        //判断是否设置过密码
+                        if (isSetPass())
+                        {
+                            //输入密码，进入防盗页面
+                            showInputPassDialog();
+                        }
+                        else
+                        {
+                            //对话框设置密码
+                            showSetPassDialog();
+                        }
+                }
+            }
+        });
+    }
     private void initData() {
         gvAdapter = new GVAdapter();
         gv_jiugongge.setAdapter(gvAdapter);
+        sp = getSharedPreferences(MyConstants.SP_NAME, MODE_PRIVATE);
     }
 
     private void initView() {
