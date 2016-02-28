@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/titleStyle"
+        android:text="手机防盗界面" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+
+            style="@style/lostfindStyle"
+            android:gravity="left"
+            android:text="安全号码" />
+
+        <TextView
+            android:id="@+id/tv_lostfind_safenumber"
+            style="@style/lostfindStyle"
+            android:gravity="right"
+            android:text="111" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/lostfindStyle"
+            android:gravity="left"
+            android:text="防盗保护是否开启" />
+
+        <ImageView
+            android:id="@+id/iv_lostfind_lock"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:src="@drawable/lock" />
+    </LinearLayout>
+
+    <TextView
+        android:onClick="entersetup"
+        style="@style/contentStyle"
+        android:clickable="true"
+        android:text="重新进入设置向导" />
+
+    <TextView
+        style="@style/contentStyle"
+        android:background="#33000000"
+        android:text="功能简介" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/star_big_on" />
+
+        <TextView
+            style="@style/contentStyle"
+            android:text="SIM卡变更报警：#*sim*#" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/star_big_on" />
+
+        <TextView
+            style="@style/contentStyle"
+            android:text="GSP追踪：#*gps*#" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/star_big_on" />
+
+        <TextView
+            style="@style/contentStyle"
+            android:text="远程锁屏：#*lockscreen*#" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/star_big_on" />
+
+        <TextView
+            style="@style/contentStyle"
+            android:text="远程清除数据：#*wipedate*#" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/star_big_on" />
+
+        <TextView
+            style="@style/contentStyle"
+            android:text="音乐报警：#*music*#" />
+    </LinearLayout>
+
+</LinearLayout>
