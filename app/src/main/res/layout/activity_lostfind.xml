@@ -14,7 +14,6 @@
         android:orientation="horizontal" >
 
         <TextView
-
             style="@style/lostfindStyle"
             android:gravity="left"
             android:text="安全号码" />
@@ -64,7 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/star_big_on" />
-
         <TextView
             style="@style/contentStyle"
             android:text="SIM卡变更报警：#*sim*#" />

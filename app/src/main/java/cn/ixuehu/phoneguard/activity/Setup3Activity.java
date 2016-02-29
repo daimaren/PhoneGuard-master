@@ -73,8 +73,8 @@ public class Setup3Activity extends BaseSetupActivity{
      */
     public void selectPhone(View view){
         //启动联系人界面
-        //Intent intent = new Intent(Setup3Activity.this,FriendsActvitity.class);
-        //startActivityForResult(intent,0);
+        Intent intent = new Intent(Setup3Activity.this,FriendsActvitity.class);
+        startActivityForResult(intent,0);
     }
 
 }
