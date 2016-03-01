@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dip"
+    android:clickable="true"
+    android:background="@drawable/list_selector">
+
+    <TextView
+        android:id="@+id/tv_setting_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:textSize="24sp"
+        android:text="自动更新设置" />
+
+    <TextView
+        android:id="@+id/tv_setting_item_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ff0000"
+        android:layout_below="@+id/tv_setting_item_title"
+        android:layout_marginTop="5dp"
+        android:textSize="20sp"
+        android:layout_marginLeft="15dp"
+        android:text="自动更新已经关闭" />
+
+    <CheckBox
+        android:clickable="false"
+        android:id="@+id/cb_settting_item_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/tv_setting_item_title"
+        android:text="" />
+    <View android:layout_width="fill_parent"
+        android:layout_height="2dip"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/list_devider"/>
+</RelativeLayout>

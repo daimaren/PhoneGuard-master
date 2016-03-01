@@ -1,5 +1,6 @@
 package cn.ixuehu.phoneguard.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CheckBox;
@@ -7,6 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import cn.ixuehu.phoneguard.R;
+import cn.ixuehu.phoneguard.service.SmsReceiverService;
 import cn.ixuehu.phoneguard.utils.MyConstants;
 import cn.ixuehu.phoneguard.utils.ShowToast;
 
@@ -19,6 +21,7 @@ public class Setup4Activity extends BaseSetupActivity{
     private CheckBox checkBox;
     private SharedPreferences sp;
     private TextView textView;
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +38,13 @@ public class Setup4Activity extends BaseSetupActivity{
                 sp.edit().putBoolean(MyConstants.ISLOCK,b).commit();
                 if (b){
                     textView.setText("防盗保护已经开启");
+                    //启动拦截短信Service
+                    intent = new Intent(Setup4Activity.this, SmsReceiverService.class);
+                    startService(intent);
                 }else {
                     textView.setText("防盗保护没有开启");
+                    //关闭拦截短信Service
+                    stopService(intent);
                 }
             }
         });
