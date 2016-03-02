@@ -16,7 +16,13 @@ public class ContactInfo implements Serializable{
 
     @Override
     public String toString() {
-        return "ContactInfo [name="+ name +", id="+id+", phone="+phone+", email="+email+", qq="+qq+"]";
+        return "ContactInfo{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", qq='" + qq + '\'' +
+                '}';
     }
 
     public String getName() {

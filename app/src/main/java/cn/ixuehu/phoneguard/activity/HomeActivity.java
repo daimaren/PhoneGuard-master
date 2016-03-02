@@ -3,6 +3,7 @@ package cn.ixuehu.phoneguard.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -151,6 +152,16 @@ public class HomeActivity extends Activity {
                             //对话框设置密码
                             showSetPassDialog();
                         }
+                    case 1://通讯卫士
+                        Intent intent = new Intent(HomeActivity.this,SmsTelGuardActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 8: //设置中心
+                        Intent intentSetting = new Intent(HomeActivity.this,SettingActivity.class);
+                        startActivity(intentSetting);
+                        break;
+                    default:
+                        break;
                 }
             }
         });

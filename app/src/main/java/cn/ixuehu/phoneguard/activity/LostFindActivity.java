@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import cn.ixuehu.phoneguard.R;
@@ -20,6 +22,7 @@ public class LostFindActivity extends Activity{
     private TextView textView;
     private ImageView imageView;
     private SharedPreferences sp;
+    private LinearLayout ll_menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -53,11 +56,29 @@ public class LostFindActivity extends Activity{
         setContentView(R.layout.activity_lostfind);
         textView = (TextView) findViewById(R.id.tv_lostfind_safenumber);
         imageView = (ImageView) findViewById(R.id.iv_lostfind_lock);
+        ll_menu = (LinearLayout) findViewById(R.id.ll_lostfind_menu);
     }
     /**
      * 重新进入设置向导
      */
     public void entersetup(View v) {
         startSetup1Activity();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add("");
+        return super.onCreateOptionsMenu(menu);
+    }
+    private boolean isMenuUp = false;
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        isMenuUp = !isMenuUp;
+        if (isMenuUp){
+            ll_menu.setVisibility(View.VISIBLE);
+        }else {
+            ll_menu.setVisibility(View.GONE);
+        }
+        return false;
     }
 }

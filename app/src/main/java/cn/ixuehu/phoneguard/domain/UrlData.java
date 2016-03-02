@@ -30,13 +30,18 @@ public class UrlData {
         return desc;
     }
 
+    @Override
+    public String toString() {
+        return "UrlData{" +
+                "versionCode=" + versionCode +
+                ", downUrl='" + downUrl + '\'' +
+                ", desc='" + desc + '\'' +
+                '}';
+    }
+
     public void setDesc(String desc) {
         this.desc = desc;
     }
 
-    @Override
-    public String toString() {
-        return "UrlData [versionCode=" + versionCode + ",downUrl=" + downUrl
-                + ", desc=" + desc + "]";
-    }
+
 }

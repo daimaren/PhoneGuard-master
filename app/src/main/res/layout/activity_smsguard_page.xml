@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/titleStyle"
+        android:text="通讯卫士" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="match_parent" >
+
+        <!-- 显示正在加载数据 -->
+
+        <LinearLayout
+            android:id="@+id/ll_black_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在加载数据"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <!-- 数据显示组件 -->
+
+        <ListView
+            android:id="@+id/lv_black_datas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="true"
+            android:visibility="gone" >
+        </ListView>
+
+        <!-- 没有数据 -->
+
+        <TextView
+            android:id="@+id/tv_black_nodata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="没有数据"
+            android:textSize="24sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:onClick="prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上一页" />
+
+        <Button
+            android:onClick="next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一页" />
+
+        <Button
+            android:onClick="jump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="跳转" />
+
+        <EditText
+            android:id="@+id/et_black_jumppage"
+            android:layout_width="50dip"
+            android:layout_height="wrap_content"
+            android:text="3" />
+
+        <TextView
+            android:id="@+id/tv_black_pagemess"
+            android:text="3/10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>
