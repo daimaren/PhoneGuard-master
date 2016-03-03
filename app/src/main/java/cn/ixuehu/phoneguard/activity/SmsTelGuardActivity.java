@@ -6,10 +6,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -89,7 +93,7 @@ public class SmsTelGuardActivity extends Activity{
                     }else {
                         lv_datas.setVisibility(View.VISIBLE);
                         tv_nodata.setVisibility(View.GONE);
-                        lv_datas.deferNotifyDataSetChanged();
+                        myAdapter.notifyDataSetChanged();
                     }
                     break;
             }
@@ -198,7 +202,6 @@ public class SmsTelGuardActivity extends Activity{
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO Auto-generated method stub
                             deleteBlackNumber(which);
                         }
                     });
@@ -217,6 +220,53 @@ public class SmsTelGuardActivity extends Activity{
     private void deleteBlackNumber(int position){
         blackNumberDao.remove(datas.get(position));
         datas.remove(position);
-        lv_datas.deferNotifyDataSetChanged();
+        myAdapter.notifyDataSetChanged();
+    }
+    public void addData(View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(SmsTelGuardActivity.this);
+        //设置view
+        View view = View.inflate(this,R.layout.dialog_add_blackname,null);
+        final EditText et_black_number = (EditText) findViewById(R.id.et_black_number);
+        final CheckBox cb_sms = (CheckBox) view.findViewById(R.id.cb_black_sms);
+        final CheckBox cb_phone = (CheckBox) view.findViewById(R.id.cb_black_phone);
+
+        Button bt_add = (Button) view.findViewById(R.id.bt_black_add);
+        bt_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone = et_black_number.getText().toString().trim();
+                if (TextUtils.isEmpty(phone)){
+                    ShowToast.show(SmsTelGuardActivity.this, "号码不能为空");
+                    return;
+                }
+                int mode = 0;
+                if (cb_sms.isChecked()){
+                    mode |= BlackNameData.SMS;
+                }
+                else if (cb_phone.isChecked()){
+                    mode |= BlackNameData.PHONE;
+                }
+                if (mode == 0){
+                    ShowToast.show(SmsTelGuardActivity.this, "至少选择一种拦截模式");
+                    return;
+                }
+                //写入数据库
+                BlackNameData data = new BlackNameData(phone,mode);
+                blackNumberDao.add(data);
+                datas.clear();
+                initData();
+                dialog.dismiss();
+            }
+        });
+        Button bt_cancel = (Button) view.findViewById(R.id.bt_black_cancel);
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        builder.setView(view);
+        dialog = builder.create();
+        dialog.show();
     }
 }
