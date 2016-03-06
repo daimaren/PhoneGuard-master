@@ -3,6 +3,7 @@ package cn.ixuehu.phoneguard.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -222,7 +223,53 @@ public class SmsTelGuardActivity extends Activity{
         datas.remove(position);
         myAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+    private View pop_view;
+    private void initPopView(){
+        pop_view = View.inflate(getApplicationContext(),R.layout.popupview,null);
+        TextView tv_sdtj = (TextView) pop_view.findViewById(R.id.tv_popup_sdtj);
+        TextView tv_lxr = (TextView) pop_view.findViewById(R.id.tv_popup_lxr);
+        TextView tv_thjl = (TextView) pop_view.findViewById(R.id.tv_popup_thjl);
+        TextView tv_dxtj = (TextView) pop_view.findViewById(R.id.tv_popup_dxlb);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.tv_popup_sdtj:// 手动添加
+                        addData("");
+                        break;
+                    case R.id.tv_popup_lxr: {// 联系人列表导入{
+                        Intent lxr = new Intent(SmsTelGuardActivity.this,
+                                FriendsActvitity.class);
+                        startActivityForResult(lxr, 0);
+                        break;
+                    }
+                    case R.id.tv_popup_thjl: {// 通话记录添加
+                        // 通话记录的数据
+                        // 界面显示
+                        break;
+                    }
+                    case R.id.tv_popup_dxlb: {// 短信列表
+                        // 短信列表的数据
+                        // 界面显示
+                        break;
+                    }
+
+                    default:
+                        break;
+                }
+            }
+        };
+    }
     public void addData(View v){
+
+    }
+    public void addData(String phoneNumber){
         AlertDialog.Builder builder = new AlertDialog.Builder(SmsTelGuardActivity.this);
         //设置view
         View view = View.inflate(this,R.layout.dialog_add_blackname,null);
